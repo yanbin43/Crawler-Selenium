@@ -61,14 +61,14 @@ searchbar.send_keys(Keys.RETURN)
 
 import time
 
-# Keep scrolling down to load more results until the "Load More" button appears
+# Keep scrolling down to load more results until the bottom
 n = 0
-while n <= 20: # Different number of max scrolls may be needed until the "Load More" button appears
+while n <= 20: # Different number of max scrolls may be needed until the bottom
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     time.sleep(2)
     n += 1
     
-# Keep clicking "Load More" button until the end of search result
+# In case there is a "Load More" button - keep clicking it until all results are visible
 try:
     loadmore = driver.find_element_by_xpath("//div[@id = 'load-more-posts']/button[@class = 'btn-load-more']")
     while (loadmore != None):
