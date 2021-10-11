@@ -136,7 +136,7 @@ for a in Link:
     Paragraph = []
     for p in driver.find_elements_by_xpath("//article//p"):
         Paragraph.append(p.text)
-    Paragraph = Paragraph[:-2]
+    Paragraph = Paragraph[:-1]
     print("Post Content:\n", Paragraph, "\n")
     Content.append(Paragraph)
     
