@@ -50,9 +50,6 @@ driver.get(url)
 ##                                                        Search & Load Results                                                        ##
 ##=====================================================================================================================================##
 
-# The search bar is hidden under the hamburger button. Perform 'click' before keyword searching.
-driver.find_element_by_xpath("//button[@class = 'h-main__hamburger-btn js-open-panel js-open-panel-categories']").click()
-
 # Find the search bar and clear old text
 searchbar = driver.find_element_by_name("s")
 searchbar.clear()
@@ -66,7 +63,7 @@ import time
 
 # Keep scrolling down to load more results until the "Load More" button appears
 n = 0
-while n <= 5: # Different number of max scrolls may be needed until the "Load More" button appears
+while n <= 20: # Different number of max scrolls may be needed until the "Load More" button appears
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     time.sleep(2)
     n += 1
@@ -87,11 +84,11 @@ except:
 ##=====================================================================================================================================##
 
 # There are 2 sections in the search results - 'product-feed' and 'article-feed' - 'article-feed' is needed.
-articlefeed = driver.find_elements_by_xpath("//div[@class = 'post-tile-card']")
+articlefeed = driver.find_elements_by_xpath("//div[@class = 'post-card-header']")
 print('Total Number of Posts =', len(articlefeed))
 
 # Get post links and save in a list:
-articles = driver.find_elements_by_xpath("//a[@class = 'post-tile-heading-lg mt-8 snwplw-ec-c pn-gtm-evt']")
+articles = driver.find_elements_by_xpath("//div[@class='post-card-header']/a[@class='post-card-content']")
 Link = []
 i = 1
 for href in articles:
@@ -152,11 +149,14 @@ driver.quit()
 #---------------------------------------------------------- Export as a File -----------------------------------------------------------#
 
 import pandas as pd
+from datetime import date
+
+today = date.today().strftime('%Y_%m_%d')
 
 ProductNation = pd.DataFrame({'Link': Link, 'Title': Title, 'Author': Author, 'Author_Profile': AuthorProfile,
                                     'Date_Time': DateTime, 'Content': Content})
 
-ProductNation.to_csv('ProductNation_' + keyword + '.csv', encoding='utf-8')
+ProductNation.to_csv('ProductNation_' + keyword + '_' + today + '.csv', encoding='utf-8')
 
 
 
